@@ -138,7 +138,7 @@ export class TodoItemsClient implements ITodoItemsClient {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                 result200 = resultData200 !== undefined ? resultData200 : <any>null;
-
+    
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -435,7 +435,7 @@ export class TodoListsClient implements ITodoListsClient {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
                 result200 = resultData200 !== undefined ? resultData200 : <any>null;
-
+    
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1149,205 +1149,6 @@ export class UpdateTodoListCommand implements IUpdateTodoListCommand {
 export interface IUpdateTodoListCommand {
     id?: number;
     title?: string | undefined;
-}
-
-export abstract class BaseEntity implements IBaseEntity {
-  id?: number;
-  domainEvents?: BaseEvent[];
-
-  constructor(data?: IBaseEntity) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.id = _data["id"];
-      if (Array.isArray(_data["domainEvents"])) {
-        this.domainEvents = [] as any;
-        for (let item of _data["domainEvents"])
-          this.domainEvents!.push(BaseEvent.fromJS(item));
-      }
-    }
-  }
-
-  static fromJS(data: any): BaseEntity {
-    data = typeof data === 'object' ? data : {};
-    throw new Error("The abstract class 'BaseEntity' cannot be instantiated.");
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["id"] = this.id;
-    if (Array.isArray(this.domainEvents)) {
-      data["domainEvents"] = [];
-      for (let item of this.domainEvents)
-        data["domainEvents"].push(item.toJSON());
-    }
-    return data;
-  }
-}
-
-export interface IBaseEntity {
-  id?: number;
-  domainEvents?: BaseEvent[];
-}
-
-export abstract class BaseAuditableEntity extends BaseEntity implements IBaseAuditableEntity {
-  created?: Date;
-  createdBy?: string | undefined;
-  lastModified?: Date | undefined;
-  lastModifiedBy?: string | undefined;
-
-  constructor(data?: IBaseAuditableEntity) {
-    super(data);
-  }
-
-  override init(_data?: any) {
-    super.init(_data);
-    if (_data) {
-      this.created = _data["created"] ? new Date(_data["created"].toString()) : <any>undefined;
-      this.createdBy = _data["createdBy"];
-      this.lastModified = _data["lastModified"] ? new Date(_data["lastModified"].toString()) : <any>undefined;
-      this.lastModifiedBy = _data["lastModifiedBy"];
-    }
-  }
-
-  static override fromJS(data: any): BaseAuditableEntity {
-    data = typeof data === 'object' ? data : {};
-    throw new Error("The abstract class 'BaseAuditableEntity' cannot be instantiated.");
-  }
-
-  override toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["created"] = this.created ? this.created.toISOString() : <any>undefined;
-    data["createdBy"] = this.createdBy;
-    data["lastModified"] = this.lastModified ? this.lastModified.toISOString() : <any>undefined;
-    data["lastModifiedBy"] = this.lastModifiedBy;
-    super.toJSON(data);
-    return data;
-  }
-}
-
-export interface IBaseAuditableEntity extends IBaseEntity {
-  created?: Date;
-  createdBy?: string | undefined;
-  lastModified?: Date | undefined;
-  lastModifiedBy?: string | undefined;
-}
-
-export class BookingType extends BaseAuditableEntity implements IBookingType {
-  bookingTypeId?: number;
-  description?: string;
-
-  constructor(data?: IBookingType) {
-    super(data);
-  }
-
-  override init(_data?: any) {
-    super.init(_data);
-    if (_data) {
-      this.bookingTypeId = _data["bookingTypeId"];
-      this.description = _data["description"];
-    }
-  }
-
-  static override fromJS(data: any): BookingType {
-    data = typeof data === 'object' ? data : {};
-    let result = new BookingType();
-    result.init(data);
-    return result;
-  }
-
-  override toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["bookingTypeId"] = this.bookingTypeId;
-    data["description"] = this.description;
-    super.toJSON(data);
-    return data;
-  }
-}
-
-export interface IBookingType extends IBaseAuditableEntity {
-  bookingTypeId?: number;
-  description?: string;
-}
-
-export abstract class BaseEvent implements IBaseEvent {
-
-  constructor(data?: IBaseEvent) {
-    if (data) {
-      for (var property in data) {
-        if (data.hasOwnProperty(property))
-          (<any>this)[property] = (<any>data)[property];
-      }
-    }
-  }
-
-  init(_data?: any) {
-  }
-
-  static fromJS(data: any): BaseEvent {
-    data = typeof data === 'object' ? data : {};
-    throw new Error("The abstract class 'BaseEvent' cannot be instantiated.");
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    return data;
-  }
-}
-
-export interface IBaseEvent {
-}
-
-export class TimeTracking extends BaseAuditableEntity implements ITimeTracking {
-  startOfRecord?: Date;
-  endOfRecord?: Date;
-  shortDescription?: string;
-  bookingTypeId?: number;
-
-  constructor(data?: ITimeTracking) {
-    super(data);
-  }
-
-  override init(_data?: any) {
-    super.init(_data);
-    if (_data) {
-      this.startOfRecord = _data["startOfRecord"] ? new Date(_data["startOfRecord"].toString()) : <any>undefined;
-      this.endOfRecord = _data["endOfRecord"] ? new Date(_data["endOfRecord"].toString()) : <any>undefined;
-      this.shortDescription = _data["shortDescription"];
-      this.bookingTypeId = _data["bookingTypeId"];
-    }
-  }
-
-  static override fromJS(data: any): TimeTracking {
-    data = typeof data === 'object' ? data : {};
-    let result = new TimeTracking();
-    result.init(data);
-    return result;
-  }
-
-  override toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["startOfRecord"] = this.startOfRecord ? this.startOfRecord.toISOString() : <any>undefined;
-    data["endOfRecord"] = this.endOfRecord ? this.endOfRecord.toISOString() : <any>undefined;
-    data["shortDescription"] = this.shortDescription;
-    data["bookingTypeId"] = this.bookingTypeId;
-    super.toJSON(data);
-    return data;
-  }
-}
-
-export interface ITimeTracking extends IBaseAuditableEntity {
-  startOfRecord?: Date;
-  endOfRecord?: Date;
-  shortDescription?: string;
-  bookingTypeId?: number;
 }
 
 export interface FileResponse {
