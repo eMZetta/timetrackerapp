@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>{{data.id ? "Buchung bearbeiten" : "Neue Buchung erfassen"}}</h2>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field style="width: 100%">
+      <input matInput
+             formControlName="startOfRecord"
+             type="text"
+             placeholder="Beginn"
+             class="form-control"
+             bsDatepicker
+             [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD.MM.YYYY HH:mm' }">
+      <mat-error *ngIf="form.get('startOfRecord').hasError('required')">Beginn ist erforderlich</mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%">
+      <input matInput
+             formControlName="endOfRecord"
+             type="text"
+             placeholder="Ende"
+             class="form-control"
+             bsDatepicker
+             [bsConfig]="{ isAnimated: true, dateInputFormat: 'DD.MM.YYYY HH:mm' }">
+      <mat-error *ngIf="form.get('endOfRecord').hasError('required')">Ende ist erforderlich</mat-error>
+    </mat-form-field>
+    <div *ngIf="form.errors?.datesInvalid" style="color: rgb(244,67,54)">Der Beginn darf nicht grösser sein als das Ende</div>
+    <mat-form-field style="width: 100%">
+      <input matInput formControlName="shortDescription" placeholder="Bezeichnung">
+      <mat-error *ngIf="form.get('shortDescription').hasError('required')">Bezeichnung ist erforderlich</mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%">
+      <mat-select formControlName="bookingTypeId">
+        <mat-option *ngFor="let bookingType of bookingTypes" [value]="bookingType.bookingTypeId">
+          {{ bookingType.description }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Abbrechen</button>
+  <button mat-button color="primary" [disabled]="!form.valid" (click)="save()" cdkFocusInitial>Speichern</button>
+</div>
