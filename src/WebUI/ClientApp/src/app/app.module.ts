@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -17,6 +17,19 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {TimeTrackingComponent} from "./time-tracking/time-tracking.component";
+import {TimeTrackingDialogComponent} from "./time-tracking/time-tracking-dialog/time-tracking-dialog.component";
+import {BsDatepickerModule, BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import {AlertConfig} from "ngx-bootstrap/alert";
+import {MatIconModule} from "@angular/material/icon";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSelectModule} from "@angular/material/select";
+import {DurationPipe} from "./time-tracking/shared/duration.pipe";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,19 +37,31 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     CounterComponent,
     TodoComponent,
-    TokenComponent
+    TokenComponent,
+    TimeTrackingComponent,
+    TimeTrackingDialogComponent,
+    DurationPipe
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BsDatepickerModule.forRoot(),
+    MatIconModule,
+    MatTooltipModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }, AlertConfig, BsDatepickerConfig
   ],
   bootstrap: [AppComponent]
 })
