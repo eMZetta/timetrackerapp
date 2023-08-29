@@ -1,6 +1,3 @@
-using WebUI;
-using zeitag_grid_init.Application;
-using zeitag_grid_init.Infrastructure;
 using zeitag_grid_init.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +8,6 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddWebUIServices();
 
 var app = builder.Build();
-app.UseCors(building => building.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()); 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

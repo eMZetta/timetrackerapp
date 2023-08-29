@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
+using zeitag_grid_init.Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using zeitag_grid_init.Application.Common.Behaviours;
 
-namespace zeitag_grid_init.Application;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ConfigureServices
 {
