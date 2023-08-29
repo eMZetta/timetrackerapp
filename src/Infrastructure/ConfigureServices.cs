@@ -1,22 +1,32 @@
-﻿using zeitag_grid_init.Application.Common.Interfaces;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using zeitag_grid_init.Application.Common.Interfaces;
 using zeitag_grid_init.Infrastructure.Files;
 using zeitag_grid_init.Infrastructure.Identity;
 using zeitag_grid_init.Infrastructure.Persistence;
 using zeitag_grid_init.Infrastructure.Persistence.Interceptors;
 using zeitag_grid_init.Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace zeitag_grid_init.Infrastructure;
 
 public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
-
+        services.AddCors(options =>
+        {
+            options.AddPolicy(name: "AllowSpecificOrigin",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:5000") // Angular Standardport. Ändern Sie dies entsprechend, wenn Ihr Frontend auf einem anderen Port läuft.
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
         if (configuration.GetValue<bool>("UseInMemoryDatabase"))
         {
             services.AddDbContext<ApplicationDbContext>(options =>

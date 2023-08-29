@@ -1,13 +1,13 @@
-﻿using zeitag_grid_init.Application.Common.Interfaces;
-using zeitag_grid_init.Infrastructure.Persistence;
-using zeitag_grid_init.WebUI.Filters;
-using zeitag_grid_init.WebUI.Services;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using NSwag;
 using NSwag.Generation.Processors.Security;
+using zeitag_grid_init.Application.Common.Interfaces;
+using zeitag_grid_init.Infrastructure.Persistence;
+using zeitag_grid_init.WebUI.Filters;
+using zeitag_grid_init.WebUI.Services;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace WebUI;
 
 public static class ConfigureServices
 {
