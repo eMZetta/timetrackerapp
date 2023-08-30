@@ -86,25 +86,8 @@ export class TimeTrackingComponent implements OnInit {
     return Object.keys(obj);
   }
 
-  getBookingTypeDescription(id: number): string {
-    // In einer echten App würden Sie wahrscheinlich einen Service verwenden,
-    // um die Beschreibung basierend auf der ID von einem API-Endpunkt oder einem Store zu erhalten.
-    // Für diese Demo verwenden wir eine einfache Zuordnung:
-    const descriptions: { [key: number]: string } = {
-      0: 'Präsenzzeit',
-      1: 'Pause',
-      2: 'Krankheit oder Unfall',
-      3: 'bezahlte Absenz',
-      4: 'unbezahlte Absenz'
-    };
-
-    return descriptions[id] || 'Unbekannter Typ';
-  }
-
   mapBookingType(id: number): string {
-    console.log(this.bookingTypes);
     const bookingType = this.bookingTypes.find(bt => bt.bookingTypeId === id);
-    console.log(this.bookingTypes);
     return bookingType ? bookingType.description : 'Unknown';
   }
 
