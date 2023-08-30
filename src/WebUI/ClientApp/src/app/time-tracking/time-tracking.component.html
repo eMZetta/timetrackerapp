@@ -1,4 +1,14 @@
-<button id="btn_add" mat-raised-button color="primary" (click)="openDialog()" matTooltip="Neue Buchung"><mat-icon>add</mat-icon></button>
+<button id="btn_add"
+        mat-raised-button
+        color="primary"
+        (click)="openDialog()"
+        matTooltip="Neue Buchung"
+        [disabled]="isLoading"> <!-- Add this line -->
+  <mat-icon>add</mat-icon>
+</button>
+
+<div *ngIf="isLoading" class="loading-circle"></div>
+<div *ngIf="!isLoading">
 <table>
   <thead>
   <tr>
@@ -23,11 +33,11 @@
     </td>
   </tr>
   </tbody>
-
-  <div class="totals">
-    <h2>Zusammenzug</h2>
-    <div *ngFor="let bookingType of bookingTypes">
-      {{bookingType.description}}: {{ timeTotals[bookingType.bookingTypeId] | duration }}<br>
-    </div>
-  </div>
 </table>
+</div>
+<div class="totals">
+  <h2>Zusammenzug</h2>
+  <div *ngFor="let bookingType of bookingTypes">
+    {{bookingType.description}}: {{ timeTotals[bookingType.bookingTypeId] | duration }}<br>
+  </div>
+</div>

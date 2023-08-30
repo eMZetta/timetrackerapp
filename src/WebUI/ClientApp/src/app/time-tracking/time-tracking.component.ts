@@ -17,6 +17,8 @@ export class TimeTrackingComponent implements OnInit {
 
   timeTrackings: TimeTracking[] = [];
   bookingTypes: BookingType[] = [];
+  isLoading: boolean = true;
+
   constructor(
     private timeTrackingService: TimeTrackingService,
     private bookingTypeService: BookingTypeService,
@@ -25,9 +27,7 @@ export class TimeTrackingComponent implements OnInit {
     this.bookingTypeService.getAll().subscribe(data => {
       this.bookingTypes = data;
     });
-    this.timeTrackingService.getAll().subscribe(data => {
-      this.timeTrackings = data;
-    });
+    this.loadTimeTrackings();
   }
 
   openDialog(timeTracking?: TimeTracking): void {
@@ -65,7 +65,8 @@ export class TimeTrackingComponent implements OnInit {
 
   private loadTimeTrackings(): void {
     this.timeTrackingService.getAll().subscribe(data => {
-      this.timeTrackings = data;
+      this.timeTrackings = data.sort((a, b) => new Date(a.startOfRecord).getTime() - new Date(b.startOfRecord).getTime());
+      this.isLoading = false;
     });
   }
 
