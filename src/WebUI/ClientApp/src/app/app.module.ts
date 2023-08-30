@@ -29,6 +29,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSelectModule} from "@angular/material/select";
 import {DurationPipe} from "./time-tracking/shared/duration.pipe";
+import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {DurationPipe} from "./time-tracking/shared/duration.pipe";
     TokenComponent,
     TimeTrackingComponent,
     TimeTrackingDialogComponent,
-    DurationPipe
+    DurationPipe,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

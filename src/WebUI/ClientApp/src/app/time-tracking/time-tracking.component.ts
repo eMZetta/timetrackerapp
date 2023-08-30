@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {BookingType} from "../web-api-client";
 import {BookingTypeService} from "./booking-type.service";
 import {DurationPipe} from "./shared/duration.pipe";
+import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-time-tracking',
@@ -57,9 +58,15 @@ export class TimeTrackingComponent implements OnInit {
   }
 
   deleteTimeTracking(id: number): void {
-    this.timeTrackingService.delete(id).subscribe(() => {
-      // alert("Die Buchung wurde entfernt.");
-      this.loadTimeTrackings();
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.timeTrackingService.delete(id).subscribe(() => {
+          // alert("Die Buchung wurde entfernt.");
+          this.loadTimeTrackings();
+        });
+      }
     });
   }
 
