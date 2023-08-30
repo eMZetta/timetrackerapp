@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { TimeTrackingService } from './time-tracking.service';
 import { TimeTracking } from './time-tracking.model';
 import {TimeTrackingDialogComponent} from "./time-tracking-dialog/time-tracking-dialog.component";
@@ -7,6 +7,12 @@ import {BookingType} from "../web-api-client";
 import {BookingTypeService} from "./booking-type.service";
 import {DurationPipe} from "./shared/duration.pipe";
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBar, MatSnackBarConfig,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-time-tracking',
@@ -23,7 +29,13 @@ export class TimeTrackingComponent implements OnInit {
   constructor(
     private timeTrackingService: TimeTrackingService,
     private bookingTypeService: BookingTypeService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    @Inject(MAT_SNACK_BAR_DEFAULT_OPTIONS) private defaultSnackBarOptions: MatSnackBarConfig) {
+    this.defaultSnackBarOptions.duration = 3000;
+    this.defaultSnackBarOptions.horizontalPosition = 'center';
+    this.defaultSnackBarOptions.verticalPosition = 'top'; // todo configure snackbar in global configuration
+  }
   async ngOnInit() {
     this.bookingTypeService.getAll().subscribe(data => {
       this.bookingTypes = data;
@@ -52,7 +64,7 @@ export class TimeTrackingComponent implements OnInit {
             this.loadTimeTrackings();
           });
         }
-        // alert("Die Buchung wurde gespeichert.");
+        this.snackBar.open('Die Buchung wurde gespeichert.');
       }
     });
   }
@@ -63,8 +75,8 @@ export class TimeTrackingComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.timeTrackingService.delete(id).subscribe(() => {
-          // alert("Die Buchung wurde entfernt.");
           this.loadTimeTrackings();
+          this.snackBar.open('Die Buchung wurde entfernt.');
         });
       }
     });

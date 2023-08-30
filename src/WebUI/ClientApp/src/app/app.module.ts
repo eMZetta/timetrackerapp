@@ -30,6 +30,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSelectModule} from "@angular/material/select";
 import {DurationPipe} from "./time-tracking/shared/duration.pipe";
 import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component"
     MatTooltipModule,
     MatSelectModule,
     ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }, AlertConfig, BsDatepickerConfig

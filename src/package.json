@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@angular/material": "^16.2.1",
     "nswag": "^13.20.0"
   }
 }
